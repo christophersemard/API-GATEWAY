@@ -1,0 +1,27 @@
+<!-- src/app/login/login.component.html -->
+<div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+  <div class="w-full max-w-sm bg-white shadow-md rounded-lg p-6">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-700">Login</h2>
+
+    <form (ngSubmit)="login()" class="space-y-4">
+      <div>
+        <label for="username" class="block text-sm font-medium text-gray-600">Username</label>
+        <input [(ngModel)]="username" name="username" id="username" type="text" required
+          class="mt-1 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-600">Password</label>
+        <input [(ngModel)]="password" name="password" id="password" type="password" required
+          class="mt-1 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+      </div>
+
+      <button type="submit"
+        class="w-full py-2 px-4 bg-blue-500 text-white rounded-md text-sm font-medium hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+        Login
+      </button>
+    </form>
+
+    <p *ngIf="errorMessage" class="mt-4 text-sm text-red-500 text-center">{{ errorMessage }}</p>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<table class="min-w-full bg-white">
+  <thead>
+    <tr>
+      <th class="py-2 px-4 border-b">Nom</th>
+      <th class="py-2 px-4 border-b">Catégorie</th>
+      <th class="py-2 px-4 border-b">Montant</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let expense of expenses">
+      <td class="py-2 px-4 border-b">{{ expense.name }}</td>
+      <td class="py-2 px-4 border-b">{{ expense.category }}</td>
+      <td class="py-2 px-4 border-b">{{ expense.amount | currency }}</td>
+    </tr>
+  </tbody>
+</table>
