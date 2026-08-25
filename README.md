@@ -89,7 +89,7 @@ npm run build
 - La modification et la suppression d'une dépense ne sont pas encore exposées par l'API Gateway.
 - Les graphiques Angular reposent encore en partie sur des données de démonstration.
 
-> Documentation de projet revue en août 2026.
+> Projet mis en avant dans la vitrine GitHub ; documentation revue en août 2026.
 
 ## Auteur
 
