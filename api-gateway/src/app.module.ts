@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule } from '@nestjs/config';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 // import { ExpensesModule } from './expenses/expenses.module';
 import { ExpensesController } from './expenses/expenses.controller';
@@ -11,23 +10,34 @@ import { ExpensesController } from './expenses/expenses.controller';
   controllers: [AppController, ExpensesController],
   imports: [
     // ExpensesModule,
-    ClientsModule.register([
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['../.env', '.env'],
+    }),
+    ClientsModule.registerAsync([
       {
         name: 'USERS_SERVICE',
-        transport: Transport.TCP,
-        options: { host: 'localhost', port: 3001 },
+        inject: [ConfigService],
+        useFactory: (config: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: config.get('USERS_SERVICE_HOST', 'localhost'),
+            port: Number(config.get('USERS_SERVICE_PORT', 3001)),
+          },
+        }),
       },
       {
         name: 'EXPENSES_SERVICE',
-        transport: Transport.TCP,
-        options: { host: 'localhost', port: 3002 },
+        inject: [ConfigService],
+        useFactory: (config: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: config.get('EXPENSES_SERVICE_HOST', 'localhost'),
+            port: Number(config.get('EXPENSES_SERVICE_PORT', 3002)),
+          },
+        }),
       },
     ]),
-    PassportModule,
-    JwtModule.register({
-      secret: 'secret',
-      signOptions: { expiresIn: '24h' },
-    }),
   ],
 })
 export class AppModule {}

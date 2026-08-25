@@ -6,15 +6,17 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { User, UserSchema } from '../schemas/user/user.schema';
 import { JwtStrategy } from './jwt.strategy';
-import { ConfigModule } from '@nestjs/config'; // Import du ConfigModule
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule, // Ajout du ConfigModule ici
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-    JwtModule.register({
-      secret: process.env.JWT_SECRET || 'secret', // Utilisation de la variable d'environnement JWT_SECRET
-      signOptions: { expiresIn: '24h' },
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        secret: config.getOrThrow<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '24h' },
+      }),
     }),
     PassportModule,
   ],

@@ -11,8 +11,8 @@ export class Expense {
   @Prop()
   amount: number;
 
-  @Prop({ default: new Date() })
-  date: string;
+  @Prop({ default: Date.now })
+  date: Date;
 
   @Prop()
   category: string;

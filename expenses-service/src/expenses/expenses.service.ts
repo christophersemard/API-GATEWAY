@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Expense } from 'src/schemas/expense/expense.schema';
-import { Model, UpdateWriteOpResult } from 'mongoose';
+import { Model } from 'mongoose';
+import { Expense } from '../schemas/expense/expense.schema';
 
 @Injectable()
 export class ExpensesService {
@@ -14,22 +14,7 @@ export class ExpensesService {
     return createdExpense.save();
   }
 
-  public async findAll(): Promise<Expense[]> {
-    return this.expenseModel.find().exec();
+  public async findAll(userId: string): Promise<Expense[]> {
+    return this.expenseModel.find({ userId }).sort({ date: -1 }).exec();
   }
-
-  public async findOne(id: string): Promise<Expense> {
-    return this.expenseModel.findById(id).exec();
-  }
-
-  public async update(
-    id: string,
-    expense: Expense,
-  ): Promise<UpdateWriteOpResult> {
-    return this.expenseModel.updateOne({ _id: id }, expense).exec();
-  }
-
-  // public async delete(id: string): Promise<UpdateWriteOpResult> {
-  //   return this.expenseModel.deleteOne({ _id: id }).exec();
-  // }
 }

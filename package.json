@@ -1,0 +1,11 @@
+{
+  "name": "expense-tracker-microservices",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gestionnaire de dépenses pédagogique en architecture microservices NestJS et Angular.",
+  "scripts": {
+    "install:all": "npm ci --prefix api-gateway && npm ci --prefix users-service && npm ci --prefix expenses-service && npm ci --prefix frontend",
+    "build": "npm run build --prefix api-gateway && npm run build --prefix users-service && npm run build --prefix expenses-service && npm run build --prefix frontend",
+    "test": "npm test --prefix api-gateway -- --runInBand && npm test --prefix users-service -- --runInBand && npm test --prefix expenses-service -- --runInBand"
+  }
+}

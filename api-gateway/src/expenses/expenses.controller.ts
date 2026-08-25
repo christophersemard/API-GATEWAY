@@ -1,6 +1,13 @@
-import { Body, Controller, Get, Inject, Post, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Post,
+  Request,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Param } from '@nestjs/common';
 import { HttpException } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common';
 import { catchError } from 'rxjs/operators';
@@ -16,7 +23,7 @@ export class ExpensesController {
   async getExpenses(@Request() req) {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
-      return { error: 'No token' };
+      throw new UnauthorizedException('Token manquant');
     }
 
     return this.expensesService
@@ -43,12 +50,11 @@ export class ExpensesController {
       amount: number;
       title: string;
       category: string;
-      userId: string;
     },
   ) {
-    let token = req.headers.authorization?.split(' ')[1];
+    const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
-      return { error: 'No token' };
+      throw new UnauthorizedException('Token manquant');
     }
 
     return this.expensesService

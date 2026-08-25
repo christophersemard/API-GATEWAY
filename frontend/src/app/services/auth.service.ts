@@ -1,6 +1,6 @@
 // src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,12 +12,11 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<any> {
-    console.log('loginSERVICE', username, password);
     return this.http.post<any>(
       this.apiUrl,
       { username, password },
       {
-        withCredentials: true, // Important si vous envoyez des cookies
+        withCredentials: false,
       }
     );
   }

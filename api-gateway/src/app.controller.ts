@@ -1,7 +1,13 @@
-import { Body, Controller, Get, Inject, Post, Request } from '@nestjs/common';
-import { AppService } from './app.service';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Post,
+  Request,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Param } from '@nestjs/common';
 import { HttpException } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common';
 import { catchError } from 'rxjs/operators';
@@ -34,7 +40,7 @@ export class AppController {
     // console.log('Token reçu par api-gateway', token);
 
     if (!token) {
-      return { error: 'No token' };
+      throw new UnauthorizedException('Token manquant');
     }
 
     return this.usersService
@@ -51,15 +57,5 @@ export class AppController {
           return throwError(() => error);
         }),
       );
-  }
-
-  @Get('users')
-  async getUsers() {
-    return this.usersService.send({ cmd: 'get_all' }, {});
-  }
-
-  @Get('users/:id')
-  async getUser(@Param('id') id: string) {
-    return this.usersService.send({ cmd: 'get_one' }, id);
   }
 }

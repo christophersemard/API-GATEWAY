@@ -25,13 +25,13 @@ export class JwtAuthGuard implements CanActivate {
     try {
       // Valider et décoder le token
       const decodedToken = await this.jwtService.verifyAsync(token, {
-        secret: 'secret',
+        secret: this.configService.getOrThrow<string>('JWT_SECRET'),
       });
 
       // Si la validation réussit, on peut ajouter le token décodé à `data.user` pour une utilisation ultérieure
       data.user = decodedToken;
       return true;
-    } catch (error) {
+    } catch {
       // En cas d'erreur de validation, renvoyer une exception RPC
       throw new RpcException({
         statusCode: 401,
